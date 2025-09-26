@@ -1,3 +1,4 @@
+torch
 opencv-python==4.2.0.34
 kornia==0.2.2
 tqdm==4.46.1
