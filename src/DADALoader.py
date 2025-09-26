@@ -252,14 +252,14 @@ class DADALoader(Dataset):
                 for i in range(video_data.shape[1]):
                     video_data[:, i] = (video_data[:, i] - self.params_norm['mean'][i]) / self.params_norm['std'][i]
 
-        if self.use_salmap:
-            # read focus data, (T, H, W, C)
-            # focus_data = self.read_focus_from_images(frame_ids, index)
-            focus_data = self.read_focus_from_videos(frame_ids, index)
-            if self.transforms['focus'] is not None:
-                focus_data = self.transforms['salmap'](focus_data)  # (T, 1, H, W)
-        else:
-            focus_data = torch.empty(0)
+        # if self.use_salmap:
+        #     # read focus data, (T, H, W, C)
+        #     # focus_data = self.read_focus_from_images(frame_ids, index)
+        #     focus_data = self.read_focus_from_videos(frame_ids, index)
+        #     if self.transforms['focus'] is not None:
+        #         focus_data = self.transforms['salmap'](focus_data)  # (T, 1, H, W)
+        # else:
+        #     focus_data = torch.empty(0)
         
         # if self.use_fixation:
         #     # read coordinates
