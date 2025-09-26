@@ -1,6 +1,6 @@
 torch
 opencv-python
-kornia==0.2.2
+kornia
 tqdm==4.46.1
 tensorboard==1.14.0
 tensorboardX==2.0
