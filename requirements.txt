@@ -4,7 +4,7 @@ tqdm==4.46.1
 tensorboard==1.14.0
 tensorboardX==2.0
 gym==0.17.2
-PyYAML==5.3.1
+PyYAML
 easydict==1.9
 matplotlib==3.2.2
 scikit-learn==0.23.1
