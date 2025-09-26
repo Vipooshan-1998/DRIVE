@@ -1,4 +1,4 @@
-opencv-python==4.3.0.38
+opencv-python
 kornia==0.2.2
 tqdm==4.46.1
 tensorboard==1.14.0
