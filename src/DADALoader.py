@@ -142,45 +142,45 @@ class DADALoader(Dataset):
     #     return focus_data
 
 
-    def read_focus_from_videos(self, frame_ids, index):
-        """ Read focus images
-        """
-        # focus path
-        focus_path = os.path.join(self.root_path, self.phase, 'focus_videos', self.data_list[index] + '.avi')
-        assert os.path.exists(focus_path), "Path does not exist: %s"%(focus_path)
-        focus_data = []
-        cap = cv2.VideoCapture(focus_path)
-        for fid in frame_ids:
-            cap.set(cv2.CAP_PROP_POS_FRAMES, fid-1)
-            ret, focus = cap.read()
-            assert ret, "read focus video failed! frame: %d"%(fid-1)
-            if focus.shape[2] != 1:
-                focus = cv2.cvtColor(focus, cv2.COLOR_BGR2GRAY)
-            focus = np.expand_dims(focus, axis=-1)  # (H, W, 1)
-            focus_data.append(focus)
-        focus_data = np.array(focus_data, dtype=np.float32)
-        return focus_data
+    # def read_focus_from_videos(self, frame_ids, index):
+    #     """ Read focus images
+    #     """
+    #     # focus path
+    #     focus_path = os.path.join(self.root_path, self.phase, 'focus_videos', self.data_list[index] + '.avi')
+    #     assert os.path.exists(focus_path), "Path does not exist: %s"%(focus_path)
+    #     focus_data = []
+    #     cap = cv2.VideoCapture(focus_path)
+    #     for fid in frame_ids:
+    #         cap.set(cv2.CAP_PROP_POS_FRAMES, fid-1)
+    #         ret, focus = cap.read()
+    #         assert ret, "read focus video failed! frame: %d"%(fid-1)
+    #         if focus.shape[2] != 1:
+    #             focus = cv2.cvtColor(focus, cv2.COLOR_BGR2GRAY)
+    #         focus = np.expand_dims(focus, axis=-1)  # (H, W, 1)
+    #         focus_data.append(focus)
+    #     focus_data = np.array(focus_data, dtype=np.float32)
+    #     return focus_data
 
 
-    def read_coord_arrays(self, frame_ids, index):
-        """ Read coordinate array
-        """
-        # coordinate path
-        coord_file = os.path.join(self.root_path, self.phase, 'coordinate', self.data_list[index] + '_coordinate.txt')
-        assert os.path.exists(coord_file), "File does not exist: %s"%(coord_file)
-        # get the class ID (starting from 1)
-        clsID = self.get_classID(index, binary_class=self.binary_cls)
-        coord_data = []
-        with open(coord_file, 'r') as f:
-            all_lines = f.readlines()
-            for fid in frame_ids:
-                line = all_lines[fid-1]
-                x_coord = int(line.strip().split(',')[0])
-                y_coord = int(line.strip().split(',')[1])
-                cls_label = clsID if x_coord > 0 and y_coord > 0 else 0
-                coord_data.append([x_coord, y_coord, cls_label])
-        coord_data = np.array(coord_data, dtype=np.float32)
-        return coord_data
+    # def read_coord_arrays(self, frame_ids, index):
+    #     """ Read coordinate array
+    #     """
+    #     # coordinate path
+    #     coord_file = os.path.join(self.root_path, self.phase, 'coordinate', self.data_list[index] + '_coordinate.txt')
+    #     assert os.path.exists(coord_file), "File does not exist: %s"%(coord_file)
+    #     # get the class ID (starting from 1)
+    #     clsID = self.get_classID(index, binary_class=self.binary_cls)
+    #     coord_data = []
+    #     with open(coord_file, 'r') as f:
+    #         all_lines = f.readlines()
+    #         for fid in frame_ids:
+    #             line = all_lines[fid-1]
+    #             x_coord = int(line.strip().split(',')[0])
+    #             y_coord = int(line.strip().split(',')[1])
+    #             cls_label = clsID if x_coord > 0 and y_coord > 0 else 0
+    #             coord_data.append([x_coord, y_coord, cls_label])
+    #     coord_data = np.array(coord_data, dtype=np.float32)
+    #     return coord_data
 
 
     def get_classID(self, index, binary_class=False):
@@ -261,19 +261,20 @@ class DADALoader(Dataset):
         else:
             focus_data = torch.empty(0)
         
-        if self.use_fixation:
-            # read coordinates
-            coord_data = self.read_coord_arrays(frame_ids, index)
-            if self.transforms['fixpt'] is not None:
-                coord_data[:, :2] = self.transforms['fixpt'](coord_data[:, :2])
-        else:
-            coord_data = torch.empty(0)
+        # if self.use_fixation:
+        #     # read coordinates
+        #     coord_data = self.read_coord_arrays(frame_ids, index)
+        #     if self.transforms['fixpt'] is not None:
+        #         coord_data[:, :2] = self.transforms['fixpt'](coord_data[:, :2])
+        # else:
+        #     coord_data = torch.empty(0)
 
         if self.cls_task:
             data_input, label_target, logit_target = self.pre_process(video_data.astype(np.float32), coord_data, data_info)
             return data_input, label_target, logit_target
 
-        return video_data, focus_data, coord_data, data_info
+        # return video_data, focus_data, coord_data, data_info
+        return video_data, data_info
      
 
 class PreFetcher():
