@@ -268,6 +268,7 @@ if __name__ == "__main__":
     print("Using GPU devices: ", gpu_ids)
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpus
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    print("Device: ", device)
 
     if args.phase == 'train':
         train()
