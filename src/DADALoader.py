@@ -115,7 +115,7 @@ class DADALoader(Dataset):
     def read_frames_from_videos(self, index, interval=1, max_frames=-1):
         """Read video frames
         """
-        video_path = os.path.join(self.root_path, self.phase, 'rgb_videos', self.data_list[index] + '.avi')
+        video_path = os.path.join(self.root_path, self.phase, 'rgb_videos', self.data_list[index] + '.mp4')
         assert os.path.exists(video_path), "Path does not exist: %s"%(video_path)
         frame_ids, video_data = [], []
         # get the video data
