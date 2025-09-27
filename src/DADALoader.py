@@ -29,20 +29,39 @@ class DADALoader(Dataset):
         # self.map_dicts = self.read_mapping(mapping_file)
 
 
+    # def get_data_list(self):
+    #     # video path
+    #     rgb_path = os.path.join(self.root_path, self.phase, 'rgb_videos')
+    #     assert os.path.exists(rgb_path), "Path does not eixst! %s"%(rgb_path)
+    #     # loop for each type of accident
+    #     data_list = []
+    #     for accident in sorted(os.listdir(rgb_path)):
+    #         if self.cls_task and accident not in self.accident_classes:
+    #             # for accident classification task, we ignore categories with too few videos
+    #             continue
+    #         accident_rgb_path = os.path.join(rgb_path, accident)
+    #         for vid in sorted(os.listdir(accident_rgb_path)):
+    #             data_list.append(accident + '/' + vid.split('.')[0])
+    #     return data_list
+
     def get_data_list(self):
-        # video path
-        rgb_path = os.path.join(self.root_path, self.phase, 'rgb_videos')
-        assert os.path.exists(rgb_path), "Path does not eixst! %s"%(rgb_path)
-        # loop for each type of accident
-        data_list = []
-        for accident in sorted(os.listdir(rgb_path)):
-            if self.cls_task and accident not in self.accident_classes:
-                # for accident classification task, we ignore categories with too few videos
-                continue
-            accident_rgb_path = os.path.join(rgb_path, accident)
-            for vid in sorted(os.listdir(accident_rgb_path)):
-                data_list.append(accident + '/' + vid.split('.')[0])
-        return data_list
+    # video path
+    rgb_path = os.path.join(self.root_path, self.phase, 'rgb_videos', self.phase)
+    assert os.path.exists(rgb_path), "Path does not exist! %s" % (rgb_path)
+
+    data_list = []
+    # loop for each type of accident (e.g., 'negative', 'positive', etc.)
+    for accident in sorted(os.listdir(rgb_path)):
+        if self.cls_task and accident not in self.accident_classes:
+            # for accident classification task, ignore categories with too few videos
+            continue
+        accident_rgb_path = os.path.join(rgb_path, accident)
+        for vid in sorted(os.listdir(accident_rgb_path)):
+            data_list.append(accident + '/' + os.path.splitext(vid)[0])  # strip extension
+    print("--------------------data_list------------------")
+    print(data_list")
+    return data_list
+
 
 
     # def read_mapping(self, map_file):
