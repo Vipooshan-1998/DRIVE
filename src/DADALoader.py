@@ -89,9 +89,6 @@ class DADALoader(Dataset):
                         name, _ = os.path.splitext(vid)
                         data_list.append(f"{split}/{accident}/{name}")
 
-        
-        print("--------------------data_list------------------")
-        print(data_list)
         return data_list
 
 
