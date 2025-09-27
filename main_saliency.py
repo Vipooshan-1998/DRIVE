@@ -106,7 +106,8 @@ def train():
 
 def test():
     # prepare result path
-    result_dir = os.path.join(args.output, 'testing')
+    # result_dir = os.path.join(args.output, 'testing')
+    result_dir = os.path.join(args.output, 'attention_output')
     if not os.path.exists(result_dir):
         os.makedirs(result_dir)
 
@@ -163,12 +164,12 @@ def test():
                 pred_video.append(pred_saliency)
 
             pred_video = np.array(pred_video, dtype=np.uint8)  # (T, H, W, C)
-            # make sure the directory exists
-            folder = os.path.dirname(filename)
-            dest_path = os.path.join(result_dir, folder)
+            # # make sure the directory exists
+            # folder = os.path.dirname(filename)
+            # dest_path = os.path.join(result_dir, folder)
             os.makedirs(os.path.dirname(result_videofile), exist_ok=True)
-            print("dest_path: ", dest_path)
-            print("result_videofile: ", result_videofile)
+            # print("dest_path: ", dest_path)
+            # print("result_videofile: ", result_videofile)
             write_video(result_videofile, torch.from_numpy(pred_video), test_data.fps)
 
 
