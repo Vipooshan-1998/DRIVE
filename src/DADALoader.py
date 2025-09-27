@@ -260,6 +260,8 @@ class DADALoader(Dataset):
         width = video_data.shape[2]
         # data_info = np.array([accident_id, video_id, nframes, height, width], dtype=np.int64)
         data_info = np.array([nframes, height, width], dtype=np.int64)
+        print("----------data_info----------")
+        print(data_info)
         return data_info
 
 
