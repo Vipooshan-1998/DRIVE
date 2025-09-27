@@ -163,6 +163,9 @@ def test():
                 pred_video.append(pred_saliency)
 
             pred_video = np.array(pred_video, dtype=np.uint8)  # (T, H, W, C)
+            # make sure the directory exists
+            # os.makedirs(os.path.dirname(result_videofile), exist_ok=True)
+            print(result_videofile)
             write_video(result_videofile, torch.from_numpy(pred_video), test_data.fps)
 
 
