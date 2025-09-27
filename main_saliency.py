@@ -140,7 +140,8 @@ def test():
             print(video_sub_paths)
             # parse data info
             data_info = data_info.cpu().numpy() if data_info.is_cuda else data_info.detach().numpy()
-            filename = str(int(data_info[0, 0])) + '_%03d'%(int(data_info[0, 1])) + '.mp4'
+            # filename = str(int(data_info[0, 0])) + '_%03d'%(int(data_info[0, 1])) + '.mp4'
+            filename = video_sub_paths[0] + '.mp4'
             # num_frames, height, width = data_info[0, 2:].astype(int)
             num_frames, height, width = data_info[0, :].astype(int)
 
