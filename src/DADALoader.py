@@ -44,46 +44,46 @@ class DADALoader(Dataset):
     #             data_list.append(accident + '/' + vid.split('.')[0])
     #     return data_list
 
-    # def get_data_list(self):
-    #     # video path
-    #     rgb_path = os.path.join(self.root_path, self.phase, 'rgb_videos', self.phase)
-    #     assert os.path.exists(rgb_path), "Path does not exist! %s" % (rgb_path)
-    
-    #     data_list = []
-    #     # loop for each type of accident (e.g., 'negative', 'positive', etc.)
-    #     for accident in sorted(os.listdir(rgb_path)):
-    #         if self.cls_task and accident not in self.accident_classes:
-    #             # for accident classification task, ignore categories with too few videos
-    #             continue
-    #         accident_rgb_path = os.path.join(rgb_path, accident)
-    #         for vid in sorted(os.listdir(accident_rgb_path)):
-    #             data_list.append(accident + '/' + os.path.splitext(vid)[0])  # strip extension
-                
-    #     print("--------------------data_list------------------")
-    #     print(data_list)
-    #     return data_list
-
     def get_data_list(self):
-        # video path (note the repeated self.phase: ".../rgb_videos/testing/")
-        rgb_path = os.path.join(self.root_path, self.phase, "rgb_videos", self.phase)
+        # video path
+        rgb_path = os.path.join(self.root_path, self.phase, 'rgb_videos', self.phase)
         assert os.path.exists(rgb_path), "Path does not exist! %s" % (rgb_path)
     
         data_list = []
-        # loop over accident classes (e.g., 'negative', 'positive')
+        # loop for each type of accident (e.g., 'negative', 'positive', etc.)
         for accident in sorted(os.listdir(rgb_path)):
-            accident_rgb_path = os.path.join(rgb_path, accident)
-            if not os.path.isdir(accident_rgb_path):
-                continue  # skip non-directory entries
-    
             if self.cls_task and accident not in self.accident_classes:
+                # for accident classification task, ignore categories with too few videos
                 continue
-    
-            # loop over videos inside each class folder
+            accident_rgb_path = os.path.join(rgb_path, accident)
             for vid in sorted(os.listdir(accident_rgb_path)):
-                name, _ = os.path.splitext(vid)
-                data_list.append(accident + "/" + name)
-    
+                data_list.append(accident + '/' + os.path.splitext(vid)[0])  # strip extension
+                
+        print("--------------------data_list------------------")
+        print(data_list)
         return data_list
+
+    # def get_data_list(self):
+    #     # video path (note the repeated self.phase: ".../rgb_videos/testing/")
+    #     rgb_path = os.path.join(self.root_path, self.phase, "rgb_videos", self.phase)
+    #     assert os.path.exists(rgb_path), "Path does not exist! %s" % (rgb_path)
+    
+    #     data_list = []
+    #     # loop over accident classes (e.g., 'negative', 'positive')
+    #     for accident in sorted(os.listdir(rgb_path)):
+    #         accident_rgb_path = os.path.join(rgb_path, accident)
+    #         if not os.path.isdir(accident_rgb_path):
+    #             continue  # skip non-directory entries
+    
+    #         if self.cls_task and accident not in self.accident_classes:
+    #             continue
+    
+    #         # loop over videos inside each class folder
+    #         for vid in sorted(os.listdir(accident_rgb_path)):
+    #             name, _ = os.path.splitext(vid)
+    #             data_list.append(accident + "/" + name)
+    
+    #     return data_list
 
 
     # def read_mapping(self, map_file):
