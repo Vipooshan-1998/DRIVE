@@ -11,5 +11,5 @@ matplotlib==3.2.2
 scikit-learn
 Transplant==0.8.10
 terminaltables==3.1.0
-pynvml==8.0.4
+pynvml
 prefetch-generator
