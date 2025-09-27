@@ -25,8 +25,8 @@ class DADALoader(Dataset):
         self.num_classes = len(self.accident_classes)
 
         self.data_list = self.get_data_list()
-        mapping_file = os.path.join(root_path, 'mapping.txt')
-        self.map_dicts = self.read_mapping(mapping_file)
+        # mapping_file = os.path.join(root_path, 'mapping.txt')
+        # self.map_dicts = self.read_mapping(mapping_file)
 
 
     def get_data_list(self):
@@ -45,19 +45,19 @@ class DADALoader(Dataset):
         return data_list
 
 
-    def read_mapping(self, map_file):
-        map_dict = {'ID_data':[], 'ID_paper':[], 'participants':[], 'accident':[]}
-        with open(map_file, 'r') as f:
-            for line in f.readlines():
-                strs = line.strip().split(',')
-                map_dict['ID_data'].append(int(strs[0]))
-                map_dict['ID_paper'].append(int(strs[1]))
-                obj_list = strs[2:4]
-                if 'self' in obj_list:
-                    obj_list.remove('self')
-                map_dict['participants'].append(obj_list)
-                map_dict['accident'].append(strs[4])
-        return map_dict
+    # def read_mapping(self, map_file):
+    #     map_dict = {'ID_data':[], 'ID_paper':[], 'participants':[], 'accident':[]}
+    #     with open(map_file, 'r') as f:
+    #         for line in f.readlines():
+    #             strs = line.strip().split(',')
+    #             map_dict['ID_data'].append(int(strs[0]))
+    #             map_dict['ID_paper'].append(int(strs[1]))
+    #             obj_list = strs[2:4]
+    #             if 'self' in obj_list:
+    #                 obj_list.remove('self')
+    #             map_dict['participants'].append(obj_list)
+    #             map_dict['accident'].append(strs[4])
+    #     return map_dict
 
 
     def select_frames(self, frame_ids, num=-1):
