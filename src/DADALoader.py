@@ -144,8 +144,10 @@ class DADALoader(Dataset):
         """Read video frames
         """
         video_path = os.path.join(self.root_path, self.phase, 'rgb_videos', self.data_list[index] + '.mp4')
+        video_sub_path = os.path.join(self.data_list[index] + '.mp4') 
         assert os.path.exists(video_path), "Path does not exist: %s"%(video_path)
-        frame_ids, video_data = [], []
+        frame_ids, video_data, video_sub_paths = [], [], []
+        video_sub_paths.append(video_sub_path)
         # get the video data
         cap = cv2.VideoCapture(video_path)
         ret, frame = cap.read()
@@ -164,7 +166,7 @@ class DADALoader(Dataset):
             frame_ids, inds = self.select_frames(frame_ids, num=max_frames)
             video_data = [video_data[i] for i in inds]
         video_data = np.array(video_data, dtype=np.float32)  # 4D tensor, (N, 660, 1584, 3)
-        return video_data, frame_ids
+        return video_data, frame_ids, video_sub_paths
 
 
     # def read_focus_from_images(self, frame_ids, index):
@@ -292,7 +294,7 @@ class DADALoader(Dataset):
     def __getitem__(self, index):
 
         # read video frame data, (T, H, W, C)
-        video_data, frame_ids = self.read_frames_from_videos(index, interval=self.interval, max_frames=self.max_frames)
+        video_data, frame_ids, video_sub_paths = self.read_frames_from_videos(index, interval=self.interval, max_frames=self.max_frames)
         # video_data, frame_ids = self.read_frames_from_images(index, interval=self.interval, max_frames=self.max_frames)
         # save info
         data_info = self.gather_info(index, video_data)
@@ -325,7 +327,7 @@ class DADALoader(Dataset):
             return data_input, label_target, logit_target
 
         # return video_data, focus_data, coord_data, data_info
-        return video_data, data_info
+        return video_data, data_info, video_sub_paths
      
 
 class PreFetcher():
