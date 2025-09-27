@@ -164,7 +164,8 @@ def test():
 
             pred_video = np.array(pred_video, dtype=np.uint8)  # (T, H, W, C)
             # make sure the directory exists
-            dest_path = folder = os.path.dirname(filename)
+            folder = os.path.dirname(filename)
+            dest_path = os.path.join(result_dir, folder)
             os.makedirs(os.path.dirname(dest_path), exist_ok=True)
             print("dest_path: ", dest_path)
             print("result_videofile: ", result_videofile)
