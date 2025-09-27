@@ -141,7 +141,7 @@ def test():
             # parse data info
             data_info = data_info.cpu().numpy() if data_info.is_cuda else data_info.detach().numpy()
             # filename = str(int(data_info[0, 0])) + '_%03d'%(int(data_info[0, 1])) + '.mp4'
-            filename = video_sub_paths[0][0] + '.mp4'
+            filename = video_sub_paths[0][0]
             # num_frames, height, width = data_info[0, 2:].astype(int)
             num_frames, height, width = data_info[0, :].astype(int)
 
@@ -164,8 +164,8 @@ def test():
 
             pred_video = np.array(pred_video, dtype=np.uint8)  # (T, H, W, C)
             # make sure the directory exists
-            # os.makedirs(os.path.dirname(result_videofile), exist_ok=True)
-            print(result_videofile)
+            # os.makedirs(os.path.dirname(result_dir), exist_ok=True)
+            print(result_dir)
             write_video(result_videofile, torch.from_numpy(pred_video), test_data.fps)
 
 
