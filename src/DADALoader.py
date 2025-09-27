@@ -59,7 +59,7 @@ class DADALoader(Dataset):
         for vid in sorted(os.listdir(accident_rgb_path)):
             data_list.append(accident + '/' + os.path.splitext(vid)[0])  # strip extension
     print("--------------------data_list------------------")
-    print(data_list")
+    print(data_list)
     return data_list
 
 
