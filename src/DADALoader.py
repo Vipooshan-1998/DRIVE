@@ -64,35 +64,32 @@ class DADALoader(Dataset):
     #     return data_list
 
 
-    def  get_data_list(self):
+    def get_data_list(self):
         data_list = []
     
-        # base folder containing rgb_videos
         base_path = os.path.join(self.root_path, self.phase, "rgb_videos")
         assert os.path.exists(base_path), "Path does not exist: %s" % base_path
     
-        # loop over subfolders (training/testing inside rgb_videos)
-        for split in sorted(os.listdir(base_path)):
+        for split in sorted(os.listdir(base_path)):  # training/testing
             split_path = os.path.join(base_path, split)
             if not os.path.isdir(split_path):
                 continue
     
-            # loop over classes (positive/negative)
-            for accident in sorted(os.listdir(split_path)):
+            for accident in sorted(os.listdir(split_path)):  # positive/negative
                 accident_path = os.path.join(split_path, accident)
                 if not os.path.isdir(accident_path):
                     continue
     
-                # optional filter for classification task
                 if self.cls_task and accident not in self.accident_classes:
                     continue
     
-                # loop over all video files
                 for vid in sorted(os.listdir(accident_path)):
-                    video_path = os.path.join(accident_path, vid)
-                    if os.path.isfile(video_path) and vid.endswith((".mp4", ".avi")):
-                        data_list.append(video_path)
-    
+                    if os.path.isfile(os.path.join(accident_path, vid)) and vid.endswith((".mp4", ".avi")):
+                        # store relative path without extension
+                        name, _ = os.path.splitext(vid)
+                        data_list.append(f"{split}/{accident}/{name}")
+
+        
         print("--------------------data_list------------------")
         print(data_list)
         return data_list
