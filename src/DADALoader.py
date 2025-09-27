@@ -64,7 +64,7 @@ class DADALoader(Dataset):
     #     return data_list
 
 
-    def get_all_videos(self):
+    def  get_data_list(self):
         data_list = []
     
         # base folder containing rgb_videos
