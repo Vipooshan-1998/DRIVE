@@ -138,7 +138,7 @@ def test():
         for i, (video_data, data_info) in enumerate(testdata_loader):
             # parse data info
             data_info = data_info.cpu().numpy() if data_info.is_cuda else data_info.detach().numpy()
-            filename = str(int(data_info[0, 0])) + '_%03d'%(int(data_info[0, 1])) + '.avi'
+            filename = str(int(data_info[0, 0])) + '_%03d'%(int(data_info[0, 1])) + '.mp4'
             num_frames, height, width = data_info[0, 2:].astype(int)
 
             # prepare result video writer
