@@ -164,8 +164,9 @@ def test():
 
             pred_video = np.array(pred_video, dtype=np.uint8)  # (T, H, W, C)
             # make sure the directory exists
-            # os.makedirs(os.path.dirname(result_dir), exist_ok=True)
-            print(result_dir)
+            dest_path = folder = os.path.dirname(filename)
+            os.makedirs(os.path.dirname(dest_path), exist_ok=True
+            print(dest_path)
             write_video(result_videofile, torch.from_numpy(pred_video), test_data.fps)
 
 
