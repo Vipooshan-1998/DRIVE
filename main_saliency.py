@@ -166,7 +166,8 @@ def test():
             # make sure the directory exists
             dest_path = folder = os.path.dirname(filename)
             os.makedirs(os.path.dirname(dest_path), exist_ok=True)
-            print(dest_path)
+            print("dest_path: ", dest_path)
+            print("result_videofile: ", result_videofile)
             write_video(result_videofile, torch.from_numpy(pred_video), test_data.fps)
 
 
