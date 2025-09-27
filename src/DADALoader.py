@@ -44,46 +44,59 @@ class DADALoader(Dataset):
     #             data_list.append(accident + '/' + vid.split('.')[0])
     #     return data_list
 
-    def get_data_list(self):
-        # video path
-        rgb_path = os.path.join(self.root_path, self.phase, 'rgb_videos', self.phase)
-        assert os.path.exists(rgb_path), "Path does not exist! %s" % (rgb_path)
+    # def get_data_list(self):
+    #     # video path
+    #     rgb_path = os.path.join(self.root_path, self.phase, 'rgb_videos', self.phase)
+    #     assert os.path.exists(rgb_path), "Path does not exist! %s" % (rgb_path)
     
-        data_list = []
-        # loop for each type of accident (e.g., 'negative', 'positive', etc.)
-        for accident in sorted(os.listdir(rgb_path)):
-            if self.cls_task and accident not in self.accident_classes:
-                # for accident classification task, ignore categories with too few videos
-                continue
-            accident_rgb_path = os.path.join(rgb_path, accident)
-            for vid in sorted(os.listdir(accident_rgb_path)):
-                data_list.append(accident + '/' + os.path.splitext(vid)[0])  # strip extension
+    #     data_list = []
+    #     # loop for each type of accident (e.g., 'negative', 'positive', etc.)
+    #     for accident in sorted(os.listdir(rgb_path)):
+    #         if self.cls_task and accident not in self.accident_classes:
+    #             # for accident classification task, ignore categories with too few videos
+    #             continue
+    #         accident_rgb_path = os.path.join(rgb_path, accident)
+    #         for vid in sorted(os.listdir(accident_rgb_path)):
+    #             data_list.append(accident + '/' + os.path.splitext(vid)[0])  # strip extension
                 
+    #     print("--------------------data_list------------------")
+    #     print(data_list)
+    #     return data_list
+
+
+    def get_all_videos(self):
+        data_list = []
+    
+        # base folder containing rgb_videos
+        base_path = os.path.join(self.root_path, self.phase, "rgb_videos")
+        assert os.path.exists(base_path), "Path does not exist: %s" % base_path
+    
+        # loop over subfolders (training/testing inside rgb_videos)
+        for split in sorted(os.listdir(base_path)):
+            split_path = os.path.join(base_path, split)
+            if not os.path.isdir(split_path):
+                continue
+    
+            # loop over classes (positive/negative)
+            for accident in sorted(os.listdir(split_path)):
+                accident_path = os.path.join(split_path, accident)
+                if not os.path.isdir(accident_path):
+                    continue
+    
+                # optional filter for classification task
+                if self.cls_task and accident not in self.accident_classes:
+                    continue
+    
+                # loop over all video files
+                for vid in sorted(os.listdir(accident_path)):
+                    video_path = os.path.join(accident_path, vid)
+                    if os.path.isfile(video_path) and vid.endswith((".mp4", ".avi")):
+                        data_list.append(video_path)
+    
         print("--------------------data_list------------------")
         print(data_list)
         return data_list
 
-    # def get_data_list(self):
-    #     # video path (note the repeated self.phase: ".../rgb_videos/testing/")
-    #     rgb_path = os.path.join(self.root_path, self.phase, "rgb_videos", self.phase)
-    #     assert os.path.exists(rgb_path), "Path does not exist! %s" % (rgb_path)
-    
-    #     data_list = []
-    #     # loop over accident classes (e.g., 'negative', 'positive')
-    #     for accident in sorted(os.listdir(rgb_path)):
-    #         accident_rgb_path = os.path.join(rgb_path, accident)
-    #         if not os.path.isdir(accident_rgb_path):
-    #             continue  # skip non-directory entries
-    
-    #         if self.cls_task and accident not in self.accident_classes:
-    #             continue
-    
-    #         # loop over videos inside each class folder
-    #         for vid in sorted(os.listdir(accident_rgb_path)):
-    #             name, _ = os.path.splitext(vid)
-    #             data_list.append(accident + "/" + name)
-    
-    #     return data_list
 
 
     # def read_mapping(self, map_file):
