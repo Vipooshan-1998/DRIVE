@@ -253,12 +253,13 @@ class DADALoader(Dataset):
     def gather_info(self, index, video_data):
         """Gather info for testing usages
         """
-        accident_id = int(self.data_list[index].split('/')[0])
-        video_id = int(self.data_list[index].split('/')[1])
+        # accident_id = int(self.data_list[index].split('/')[0])
+        # video_id = int(self.data_list[index].split('/')[1])
         nframes = video_data.shape[0]
         height = video_data.shape[1]
         width = video_data.shape[2]
-        data_info = np.array([accident_id, video_id, nframes, height, width], dtype=np.int64)
+        # data_info = np.array([accident_id, video_id, nframes, height, width], dtype=np.int64)
+        data_info = np.array([nframes, height, width], dtype=np.int64)
         return data_info
 
 
