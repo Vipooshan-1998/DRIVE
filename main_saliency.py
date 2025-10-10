@@ -12,7 +12,8 @@ import numpy as np
 from tqdm import tqdm
 from tensorboardX import SummaryWriter
 import cv2
-
+# FLOPs Calculation
+from fvcore.nn import FlopCountAnalysis, parameter_count_table
 
 def set_deterministic(seed):
     torch.manual_seed(seed)
@@ -154,6 +155,11 @@ def test():
             pred_video = []
             for fid in tqdm(range(num_frames), total=num_frames, desc="Testing video [%d / %d]"%(i, len(testdata_loader))):
                 frame_data = video_data[:, fid].to(device, dtype=torch.float)  # (B, C, H, W)
+                # FLOPs Calculation:
+                flops = FlopCountAnalysis(model, frame_data)
+                print("Total FLOPs:", flops.total())
+                print("FLOPs per layer:\n", flops.by_module())
+                print(parameter_count_table(model))
                 # forward
                 out = model.forward(frame_data)
                 out = out.cpu().numpy() if out.is_cuda else out.detach().numpy()
